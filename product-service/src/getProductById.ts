@@ -1,11 +1,8 @@
-import { HttpEventRequest, HttpResponse, Product, ErrorResponse } from './types';
+import { HttpEventRequest, HttpResponse, Product } from './types';
 import productsList from './data/productsList.json';
 import { respondJson } from './common';
+import { notFoundError } from './common/errors'
 
-const notFoundError: ErrorResponse = {
-  success: false,
-  error: { message: 'Product not found' }
-}
 export async function handler(event: HttpEventRequest<{ productId: string }>): HttpResponse {
   const { productId } = event.pathParameters;
   const result = productsList.filter(product => product.id === productId)
