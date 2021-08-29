@@ -1,8 +1,15 @@
-service: test-products-app
+service: webpack-products-app
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-webpack
   - serverless-offline
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    packager: 'npm'
+    excludeFiles: src/**/*.test.js
 
 variablesResolutionMode: 20210326
 useDotenv: true

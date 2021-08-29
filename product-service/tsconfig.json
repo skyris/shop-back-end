@@ -12,7 +12,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": ".build",
-    "rootDir": "./",
+    "rootDir": "./src",
     "module": "commonjs",
     "target": "es2020",
     "resolveJsonModule": true,

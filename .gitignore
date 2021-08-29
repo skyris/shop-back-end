@@ -110,6 +110,7 @@ node_modules
 
 # Webpack directories
 */.webpack
+.webpackCache
 
 # serverless build
 .build
