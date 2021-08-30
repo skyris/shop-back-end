@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Lambda API for shop
+  description: Product service (AWS Lambda based project)
+  version: 1.0.0
+
+servers:
+  - url: https://mhxfvszlp9.execute-api.eu-north-1.amazonaws.com/dev
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        description:
+          type: string
+        count:
+          type: integer
+        price:
+          type: integer
+
+    ErrorResponse:
+      description: Product Not Found
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Product Not Found
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products
+      description: Get all product
+      responses:
+        200:
+          description: Successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /products/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Products
+      summary: Get product by id
+      description: Get product by id
+        e.g. /products/7567ec4b-b10c-48c5-9345-fc73c48a80a0
+      responses:
+        200:
+          description: Successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        404:
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
