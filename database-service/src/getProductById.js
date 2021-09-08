@@ -29,7 +29,7 @@ async function handler(event) {
   }
 
   if (product.length > 0) {
-    return respondJson(product, 200);
+    return respondJson(product[0], 200);
   }
   return respondJson(notFoundError, 404);
 };
