@@ -1,15 +1,7 @@
 service: lesson4-database
-# frameworkVersion: '2'
 
 plugins:
   - serverless-offline
-
-
-
-
-
-
-
 
 
 variablesResolutionMode: 20210326
@@ -22,7 +14,6 @@ provider:
   stage: dev
   region: eu-west-1
   lambdaHashingVersion: 20201221
-
 
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: ${env:AWS_NODEJS_CONNECTION_REUSE_ENABLED}

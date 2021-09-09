@@ -4,13 +4,16 @@ const { notFoundError } = require('./common/errors');
 
 
 async function handler(event) {
-  let product;
+  console.log(event);
   const { productId } = event.pathParameters;
 
-  const client = new Client(dbOptions);
-  await client.connect();
+  let client;
+  let product;
 
   try {
+    client = new Client(dbOptions);
+    await client.connect();
+
     const result = await client.query(`
       SELECT id, title, author, description, count, price
       FROM products
@@ -23,6 +26,7 @@ async function handler(event) {
 
   } catch(err) {
     console.error(`Error during database request execution: ${err}`);
+    return respondJson({message: "Something went wrong"}, 500);
 
   } finally {
     client.end();
