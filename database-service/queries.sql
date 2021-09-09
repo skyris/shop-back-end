@@ -94,3 +94,16 @@ FROM products
 FULL JOIN stocks
 ON stocks.product_id=products.id
 WHERE id='7a22dae6-e205-4d94-a792-46c0524052ba';
+
+-- Insert product to products table
+-- then get id and insert to stocks table:
+
+WITH new_product AS (
+  INSERT INTO products
+    (title, author, description, price)
+  VALUES
+    ('title', 'author', 'description', 55)
+  RETURNING id
+)
+INSERT INTO stocks (product_id, count)
+    SELECT id, 40 FROM new_product;
