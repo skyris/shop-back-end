@@ -7,11 +7,10 @@ async function handler(event) {
   console.log(event);
   const { productId } = event.pathParameters;
 
-  let client;
+  const client = new Client(dbOptions);
   let product;
 
   try {
-    client = new Client(dbOptions);
     await client.connect();
 
     const result = await client.query(`

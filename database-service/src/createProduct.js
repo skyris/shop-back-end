@@ -9,10 +9,9 @@ async function handler(event) {
     return respondJson("Product data is invalid", 400);
   }
 
-  let client;
+  const client = new Client(dbOptions);
   let result;
   try {
-    client = new Client(dbOptions);
     await client.connect();
 
     result = await client.query(`

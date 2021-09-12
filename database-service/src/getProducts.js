@@ -5,14 +5,18 @@ const { dbOptions, respondJson } = require('./common');
 async function handler(event) {
   console.log(event);
 
-  let client;
+  const client = new Client(dbOptions);
   let productsList;
 
   try {
-    client = new Client(dbOptions);
     await client.connect();
 
-    const result = await client.query(`SELECT * FROM products;`);
+    const result = await client.query(`
+      SELECT id, title, author, description, count, price
+      FROM products
+      FULL JOIN stocks
+      ON stocks.product_id=products.id;
+    `);
     productsList = result.rows;
 
   } catch(err) {
