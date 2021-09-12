@@ -1,0 +1,38 @@
+service: webpack-products-app
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    packager: 'npm'
+    excludeFiles: src/**/*.test.js
+
+variablesResolutionMode: 20210326
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+
+functions:
+  getProductsList:
+    handler: src/getProductsList.handler
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+  getProductById:
+    handler: src/getProductById.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          cors: true
