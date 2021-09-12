@@ -14,6 +14,7 @@ async function handler(event) {
   try {
     await client.connect();
 
+    await client.query('BEGIN');
     result = await client.query(`
       WITH new_product AS (
         INSERT INTO products
@@ -25,9 +26,11 @@ async function handler(event) {
       INSERT INTO stocks (product_id, count)
         SELECT id, $5 FROM new_product;
     `, [ title, author, description, price, count ]);
+    await client.query('COMMIT');
 
     console.log(result);
   } catch(err) {
+    await client.query('ROLLBACK');
     console.error(`Error during database request execution: ${err}`);
     return respondJson({message: "Something went wrong"}, 500);
 
