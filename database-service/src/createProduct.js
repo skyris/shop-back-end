@@ -1,12 +1,13 @@
 const { Client } = require('pg');
-const { dbOptions, respondJson } = require('./common');
+const { dbOptions, respondJson, isGoodSchema } = require('./common');
 
 
 async function handler(event) {
   console.log(event);
   const { title, author, description, price, count } = JSON.parse(event.body);
-  if (title === undefined || author === undefined || description === undefined || price === undefined || count === undefined) {
-    return respondJson("Product data is invalid", 400);
+
+  if(!isGoodSchema({ title, author, description, price, count })) {
+    return respondJson({message: "Product data is invalid"}, 400);
   }
 
   const client = new Client(dbOptions);

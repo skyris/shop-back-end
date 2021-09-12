@@ -25,5 +25,13 @@ function respondJson(body, statusCode) {
 	}
 }
 
+const isNumber = value => typeof value === 'number';
 
-module.exports = { dbOptions, respondJson };
+function isGoodSchema({ title, author, description, price, count }) {
+  if (title === undefined || author === undefined || description === undefined || price === undefined || count === undefined || !isNumber(price) || !isNumber(count)) {
+    return false;
+  }
+  return true;
+}
+
+module.exports = { dbOptions, respondJson, isNumber, isGoodSchema };
