@@ -21,7 +21,7 @@ async function handler(event) {
 
   } catch(err) {
     console.error(`Error during database request execution: ${err}`);
-    return respondJson({message: "Something went wrong"}, 500);
+    return respondJson({ message: "Something went wrong" }, 500);
 
   } finally {
     client.end();
@@ -30,4 +30,4 @@ async function handler(event) {
   return respondJson(productsList, 200)
 };
 
-module.exports = { handler }
+module.exports = { handler };

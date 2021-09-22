@@ -4,10 +4,11 @@ const { dbOptions, respondJson, isGoodSchema } = require('./common');
 
 async function handler(event) {
   console.log(event);
+
   const { title, author, description, price, count } = JSON.parse(event.body);
 
   if(!isGoodSchema({ title, author, description, price, count })) {
-    return respondJson({message: "Product data is invalid"}, 400);
+    return respondJson({ message: "Product data is invalid" }, 400);
   }
 
   const client = new Client(dbOptions);
@@ -33,7 +34,7 @@ async function handler(event) {
   } catch(err) {
     await client.query('ROLLBACK');
     console.error(`Error during database request execution: ${err}`);
-    return respondJson({message: "Something went wrong"}, 500);
+    return respondJson({ message: "Something went wrong" }, 500);
 
   } finally {
     client.end();
@@ -42,4 +43,4 @@ async function handler(event) {
   return respondJson(result, 200);
 };
 
-module.exports = { handler }
+module.exports = { handler };
