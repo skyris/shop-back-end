@@ -1,0 +1,74 @@
+[
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    "title": "AWS: The Ultimate Guide From Beginners To Advanced For The Amazon Web Services (2020 Edition)",
+    "author": "Theo H. King",
+    "description": "If cloud computing is one of the leading trends in the IT industry (and it most certainly is), then Amazon Web Services Platform (AWS) is the champion of that trend. If you want to be a part of the competitive markets, you need to jump on this ascending wagon and get familiar with the AWS.",
+    "count": 4,
+    "price": 4.79
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a0",
+    "title": "Amazon Web Services in Action",
+    "author": "Andreas Wittig, Michael Wittig",
+    "description": "Amazon Web Services in Action, Second Edition is a comprehensive introduction to computing, storing, and networking in the AWS cloud. You'll find clear, relevant coverage of all the essential AWS services you to know, emphasizing best practices for security, high availability and scalability.",
+    "count": 6,
+    "price": 41.99
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2",
+    "title": "AWS for Solutions Architects: Design your cloud infrastructure by implementing DevOps, containers, and Amazon Web Services",
+    "author": "Alberto Artasanchez",
+    "description": "Apply cloud design patterns to overcome real-world challenges by building scalable, secure, highly available, and cost-effective solutions",
+    "count": 12,
+    "price": 17.19
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+    "title": "AWS Certified Cloud Practitioner Study Guide: CLF-C01 Exam",
+    "author": "Ben Piper, David Clinton",
+    "description": "Take the next step in your career by expanding and validating your skills on the Amazon Web Services (AWS) Cloud. The AWS Certified Cloud Practitioner Study Guide: Exam CLF-C01 provides a solid introduction to this industry-leading technology, relied upon by thousands of businesses across the globe, as well as the resources you need to prove your knowledge in the AWS Certification Exam.",
+    "count": 20,
+    "price": 30
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a3",
+    "title": "AWS Certified Solutions Architect Study Guide: Associate SAA-CO2 Exam (Aws Certified Solutions Architect Official: Associate Exam)",
+    "author": "Ben Piper, David Clinton",
+    "description": "AWS Certified Solutions Study Guide: Associate (SAA-C02) Exam, Third Edition comprehensively and efficiently prepares you for the SAA-C02 Exam. The study guide contains robust and effective study tools that will help you succeed on the exam. The guide grants you access to the regularly updated Sybex online learning environment and test bank, which contains hundreds of test questions, bonus practice exams, electronic flashcards, and a glossary of key terms.",
+    "count": 25,
+    "price": 35.99
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9345-fc73348a80a9",
+    "title": "Data Science on AWS: Implementing End-to-End, Continuous AI and Machine Learning Pipelines",
+    "author": "Chris Fregly, Antje Barth ",
+    "description": "With this practical book, AI and machine learning practitioners will learn how to successfully build and deploy data science projects on Amazon Web Services. The Amazon AI and machine learning stack unifies data science, data engineering, and application development to help level up your skills. This guide shows you how to build and run pipelines in the cloud, then integrate the results into applications in minutes instead of days. Throughout the book, authors Chris Fregly and Antje Barth demonstrate how to reduce cost and improve performance.",
+    "count": 23,
+    "price": 33.99
+  },
+  {
+    "id": "7567ec4b-b10c-48c5-9445-fc73c48c80a2",
+    "title": "AWS Certified Machine Learning Specialty: MLS-C01 Certification Guide: The definitive guide to passing the MLS-C01 exam on the very first attempt",
+    "author": "Somanath Nanda, Weslley Moura",
+    "description": "The AWS Certified Machine Learning Specialty exam tests your competency to perform machine learning (ML) on AWS infrastructure. This book covers the entire exam syllabus using practical examples to help you with your real-world machine learning projects on AWS.",
+    "count": 40,
+    "price": 21.74
+  },
+  {
+    "id": "7567ec4b-b10c-45c5-9345-ac73c48a80a1",
+    "title": "AWS Certified Cloud Practitioner Training Notes",
+    "author": "Neal Davis",
+    "description": "Based on the latest CLF-C01 exam blueprint, these training notes will shortcut your study time and maximize your chance of passing the AWS Certified Cloud Practitioner exam first time.",
+    "count": 17,
+    "price": 24.99
+  },
+  {
+    "id": "7597ea4a-b10c-45c5-9345-fc73c48a80a1",
+    "title": "AWS: The Most Complete Guide to Amazon Web Services from Beginner to Advanced Level",
+    "author": "Raoul Alongi",
+    "description": "Struggling to Come to Grips With Cloud Technology?",
+    "count": 14,
+    "price": 16.99
+  }
+]

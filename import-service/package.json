@@ -1,0 +1,22 @@
+{
+  "name": "s3-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "sls deploy",
+    "local": "sls offline",
+    "test": "node handler-test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.991.0",
+    "csv-parser": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.3",
+    "serverless-offline": "^8.2.0"
+  }
+}
