@@ -1,0 +1,55 @@
+service: import-service
+frameworkVersion: '2'
+
+plugins:
+  - serverless-offline
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ${env:REGION}
+
+  environment:
+    REGION: ${env:REGION}
+    BUCKET: ${env:BUCKET}
+    INPUT_FOLDER: ${env:INPUT_FOLDER}
+    OUTPUT_FOLDER: ${env:OUTPUT_FOLDER}
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action: s3:ListBucket
+      Resource:
+        - arn:aws:s3:::${env:BUCKET}
+    - Effect: Allow
+      Action: 
+        - s3:*
+      Resource:
+        - arn:aws:s3:::${env:BUCKET}/*
+
+functions:
+  importProductsFile:
+    handler: src/importProductsFile.handler
+    events:
+      - http:
+          path: import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
+
+  importFileParser:
+    handler: src/importFileParser.handler
+    events:
+      - s3:
+          bucket: ${env:BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${env:INPUT_FOLDER}
+          existing: true
