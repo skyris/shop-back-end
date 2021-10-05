@@ -1,5 +1,6 @@
 const { S3 } = require('aws-sdk');
-const { customPromisify, createResponse } = require('./utils');
+const { createResponse } = require('./utils');
+const { STATUS_CODES } = require('./utils/constants')
 
 const { BUCKET, REGION, INPUT_FOLDER } = process.env;
 
@@ -10,18 +11,16 @@ async function handler(event) {
   const inputObjectParams = {
     Bucket: BUCKET,
     Key: inputFileKey,
-    Expires: 360,
+    Expires: 60,
     ContentType: 'text/csv'
   };
 
   try {
     const s3 = new S3({ region: REGION });
-    const url = await customPromisify(
-      s3.getSignedUrl.bind(s3), 'putObject', inputObjectParams
-    );
-    return createResponse(url, 200)
+    const url = await s3.getSignedUrlPromise('putObject', inputObjectParams);
+    return createResponse(url, STATUS_CODES.OK);
   } catch (error) {
-    return createResponse(error, 500);
+    return createResponse(error, STATUS_CODES.INTERNAL_SERVER_ERROR);
   }
 }
 

@@ -2,6 +2,7 @@ const { S3 } = require('aws-sdk');
 const csv = require('csv-parser');
 const stream = require('stream');
 const util = require('util');
+const { STATUS_CODES } = require('./utils/constants');
 
 const { BUCKET, REGION, INPUT_FOLDER, OUTPUT_FOLDER } = process.env;
 const finished = util.promisify(stream.finished);
@@ -17,18 +18,18 @@ async function handler(event) {
     const inputObjectParams = {
       Bucket: BUCKET,
       Key: inputFileKey
-    }; 
+    };
 
     const outputObjectParams = {
       Bucket: BUCKET,
       CopySource: `${BUCKET}/${inputFileKey}`,
       Key: outputFileKey
-    }; 
+    };
 
     const stream = s3.getObject(inputObjectParams).createReadStream();
 
     await finished(
-      stream 
+      stream
         .on('error', (error) => {
           console.error('ERROR: ', error);
         })
@@ -43,11 +44,11 @@ async function handler(event) {
     await s3.copyObject(outputObjectParams).promise();
     await s3.deleteObject(inputObjectParams).promise();
 
-    console.log(`Move to ${BUCKET}/${outputFileKey}`);
+    console.log(`Moved to ${BUCKET}/${outputFileKey}`);
   }
 
   return {
-    statusCode: 202
+    statusCode: STATUS_CODES.ACCEPTED,
   };
 }
 
