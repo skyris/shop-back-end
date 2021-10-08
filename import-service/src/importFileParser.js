@@ -1,0 +1,67 @@
+const { S3, SQS } = require('aws-sdk');
+const csv = require('csv-parser');
+const stream = require('stream');
+const util = require('util');
+const { STATUS_CODES } = require('./utils/constants');
+
+const {
+  BUCKET, REGION, INPUT_FOLDER, OUTPUT_FOLDER, SQS_URL
+} = process.env;
+const finished = util.promisify(stream.finished);
+
+
+async function handler(event) {
+  const s3 = new S3({ region: REGION });
+
+  for (const record of event.Records) {
+    const { key: inputFileKey } = record.s3.object;
+    const outputFileKey = inputFileKey.replace(INPUT_FOLDER, OUTPUT_FOLDER);
+
+    const inputObjectParams = {
+      Bucket: BUCKET,
+      Key: inputFileKey
+    };
+
+    const outputObjectParams = {
+      Bucket: BUCKET,
+      CopySource: `${BUCKET}/${inputFileKey}`,
+      Key: outputFileKey
+    };
+
+    const stream = s3.getObject(inputObjectParams).createReadStream();
+    const sqs = new SQS();
+
+    await finished(
+      stream
+        .on('error', (error) => {
+          console.error('ERROR: ', error);
+        })
+        .pipe(csv())
+        .on('data', (data) => {
+          console.log(data);
+          // Promise ???
+          sqs.sendMessage({
+            QueueUrl: SQS_URL,
+            MessageBody: JSON.stringify(data),
+          }, () => {console.log(`send message ${JSON.stringify(data)}`);});
+        })
+    );
+
+    console.log(`Move from ${BUCKET}/${inputFileKey}`);
+
+    await s3.copyObject(outputObjectParams).promise();
+    await s3.deleteObject(inputObjectParams).promise();
+
+    console.log(`Moved to ${BUCKET}/${outputFileKey}`);
+  }
+
+  return {
+    statusCode: STATUS_CODES.ACCEPTED,
+  };
+}
+
+
+module.exports = {
+  handler,
+};
+

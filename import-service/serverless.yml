@@ -1,0 +1,107 @@
+service: import-service
+frameworkVersion: '2'
+
+plugins:
+  - serverless-offline
+
+variablesResolutionMode: 20210326
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ${env:REGION}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action: s3:ListBucket
+      Resource:
+        - arn:aws:s3:::${env:BUCKET}
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource:
+        - arn:aws:s3:::${env:BUCKET}/*
+    - Effect: Allow
+      Action: sqs:*
+      Resource:
+        - Fn::GetAtt:
+            - SQSQueue
+            - Arn
+    - Effect: Allow
+      Action: sns:*
+      Resource:
+        Ref: SNSTopic
+
+  environment:
+    REGION: ${env:REGION}
+    BUCKET: ${env:BUCKET}
+    INPUT_FOLDER: ${env:INPUT_FOLDER}
+    OUTPUT_FOLDER: ${env:OUTPUT_FOLDER}
+    SQS_URL:
+      Ref: SQSQueue
+    SNS_ARN:
+      Ref: SNSTopic
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: ${env:AWS_NODEJS_CONNECTION_REUSE_ENABLED}
+    PG_HOST: ${env:PG_HOST}
+    PG_DATABASE: ${env:PG_DATABASE}
+    PG_PORT: ${env:PG_PORT}
+    PG_USER: ${env:PG_USER}
+    PG_PASSWORD: ${env:PG_PASSWORD}
+
+
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: 4klimov@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic
+
+
+functions:
+  importProductsFile:
+    handler: src/importProductsFile.handler
+    events:
+      - http:
+          path: import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
+
+  importFileParser:
+    handler: src/importFileParser.handler
+    events:
+      - s3:
+          bucket: ${env:BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${env:INPUT_FOLDER}
+          existing: true
+
+  catalogBatchProcess:
+    handler: src/catalogBatchProcess.handler
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - SQSQueue
+              - Arn

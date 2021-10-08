@@ -1,0 +1,21 @@
+{
+  "name": "database-service-beta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "local": "sls offline",
+    "deploy": "sls deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.13",
+    "serverless-offline": "^8.1.0"
+  }
+}

@@ -93,6 +93,7 @@ dist
 
 # Serverless directories
 .serverless/
+*/.serverless
 
 # FuseBox cache
 .fusebox/
@@ -102,3 +103,14 @@ dist
 
 # TernJS port file
 .tern-port
+.idea
+.vscode
+node_modules
+*/node_modules
+
+# Webpack directories
+*/.webpack
+.webpackCache
+
+# serverless build
+.build

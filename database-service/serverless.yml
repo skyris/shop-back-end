@@ -1,0 +1,47 @@
+service: lesson4-database
+
+plugins:
+  - serverless-offline
+
+
+variablesResolutionMode: 20210326
+useDotenv: true
+
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: ${env:AWS_NODEJS_CONNECTION_REUSE_ENABLED}
+    PG_HOST: ${env:PG_HOST}
+    PG_DATABASE: ${env:PG_DATABASE}
+    PG_PORT: ${env:PG_PORT}
+    PG_USER: ${env:PG_USER}
+    PG_PASSWORD: ${env:PG_PASSWORD}
+
+functions:
+  getProducts:
+    handler: src/getProducts.handler
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+  getProductById:
+    handler: src/getProductById.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          cors: true
+  createProduct:
+    handler: src/createProduct.handler
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
