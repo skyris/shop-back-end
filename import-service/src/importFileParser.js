@@ -1,10 +1,12 @@
-const { S3 } = require('aws-sdk');
+const { S3, SQS } = require('aws-sdk');
 const csv = require('csv-parser');
 const stream = require('stream');
 const util = require('util');
 const { STATUS_CODES } = require('./utils/constants');
 
-const { BUCKET, REGION, INPUT_FOLDER, OUTPUT_FOLDER } = process.env;
+const {
+  BUCKET, REGION, INPUT_FOLDER, OUTPUT_FOLDER, SQS_URL
+} = process.env;
 const finished = util.promisify(stream.finished);
 
 
@@ -27,6 +29,7 @@ async function handler(event) {
     };
 
     const stream = s3.getObject(inputObjectParams).createReadStream();
+    const sqs = new SQS();
 
     await finished(
       stream
@@ -36,6 +39,11 @@ async function handler(event) {
         .pipe(csv())
         .on('data', (data) => {
           console.log(data);
+          // Promise ???
+          sqs.sendMessage({
+            QueueUrl: SQS_URL,
+            MessageBody: JSON.stringify(data),
+          }, () => {console.log(`send message ${JSON.stringify(data)}`);});
         })
     );
 

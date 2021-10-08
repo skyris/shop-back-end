@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.991.0",
-    "csv-parser": "^3.0.0"
+    "csv-parser": "^3.0.0",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "@types/node": "^16.9.3",
